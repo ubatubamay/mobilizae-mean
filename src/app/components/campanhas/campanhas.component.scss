@@ -1,0 +1,21 @@
+.card-small-container {
+    display: grid;
+    padding: 20px;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-rows: auto;
+}
+
+.card-small {
+    max-width: 250px;
+    min-height: 300px;
+}
+
+.example-header-image {
+    background-image: url('../../../assets/img/icone-escola.png');
+    background-size: cover;
+}
+
+mat-card-actions{
+    width: 100%;
+}

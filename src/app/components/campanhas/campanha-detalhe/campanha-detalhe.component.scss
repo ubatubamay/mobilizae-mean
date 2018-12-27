@@ -1,0 +1,49 @@
+table.mat-table {
+    border-spacing: 20px;
+    background-color: #fafafa;
+}
+
+#b1 {
+    grid-area: 'b1';
+}
+
+#b2 {
+    grid-area: 'b2';
+}
+
+#b1, #b2{
+    padding: 15px;
+}
+
+.grid-container {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr 40%;
+    grid-template-areas: "b1 b2";
+
+    @media (max-width: 960px) {
+        grid-gap: 0;
+        grid-template-rows: auto 1fr auto auto;
+        grid-template-columns: 1fr;
+        grid-template-areas: "b2" "b1";
+    }
+}
+
+mat-card{
+    height: 100%;
+    background-color: #fafafa;
+}
+
+mat-card-content{
+    padding: 20px;
+    text-align: center;
+}
+
+.example-header-image {
+    height: 120px;
+    background-image: url('../../../../assets/img/icone-escola.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

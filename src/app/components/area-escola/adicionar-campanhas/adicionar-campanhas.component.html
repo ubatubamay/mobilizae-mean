@@ -1,0 +1,113 @@
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="novaCampanhaForm" novalidate>
+
+      <h4>Tipo de campanha</h4>
+      <mat-radio-group formControlName="tipo">
+        <mat-radio-button required class="example-radio-button" *ngFor="let tipoCampanha of tiposCampanha" [value]="tipoCampanha">
+          {{tipoCampanha}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <br><br>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Título da campanha</mat-label>
+        <input required matInput formControlName="titulo">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Descrição da campanha</mat-label>
+        <textarea required matInput formControlName="descricao"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="novaCampanhaForm.controls['tipo'].value == 'Voluntariado' || novaCampanhaForm.controls['tipo'].value == 'Material e Voluntariado'">
+        <mat-label>Datas e horários da prestação de voluntariado</mat-label>
+        <textarea matInput formControlName="horarios"></textarea>
+      </mat-form-field>
+
+      <!-- INÍCIO TABELA MATERIAIS -->
+      <mat-card formArrayName="materiais" class="inner-card" *ngIf="novaCampanhaForm.controls['tipo'].value == 'Material' || novaCampanhaForm.controls['tipo'].value == 'Material e Voluntariado'">
+        <mat-card-subtitle>Materiais</mat-card-subtitle>
+        <mat-divider></mat-divider>
+
+        <div *ngFor="let material of novaCampanhaForm.controls['materiais'].controls; let i=index">
+          <mat-divider></mat-divider><br>
+
+          <div [formGroupName]="i">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="left">
+
+              <mat-form-field  fxFlex="20%">
+                <input matInput placeholder="Tipo de material" formControlName="nome">
+                <mat-error>
+                    O tipo de material é obrigatório.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field  fxFlex="10%" fxFlex.xs="20">
+                <input matInput placeholder="Quantidade" type="number" formControlName="qtd">
+              </mat-form-field>              
+
+              <div fxLayout.xs="row">
+                <button type="button" mat-mini-fab color="warn" fxFlex="nogrow" (click)="removeMaterial(i)" *ngIf="novaCampanhaForm.controls['materiais'].controls.length > 1">
+                  <mat-icon>delete forever</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+          <button type="button" mat-raised-button color="primary" (click)="addMaterial()">
+            <mat-icon>add box</mat-icon>
+            Adicionar material
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <!-- FIM TABELA materiais -->
+
+      <!-- INÍCIO TABELA VAGAS -->
+      <mat-card formArrayName="vagas" class="inner-card" *ngIf="novaCampanhaForm.controls['tipo'].value == 'Voluntariado' || novaCampanhaForm.controls['tipo'].value == 'Material e Voluntariado'">
+        <mat-card-subtitle>Vagas</mat-card-subtitle>
+        <mat-divider></mat-divider>
+
+        <div *ngFor="let vaga of novaCampanhaForm.controls['vagas'].controls; let i=index">
+          <mat-divider></mat-divider><br>
+
+          <div [formGroupName]="i">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="left">
+
+              <mat-form-field  fxFlex="10%" fxFlex.xs="20">
+                <input matInput placeholder="Quantidade" type="number" formControlName="qtd">
+              </mat-form-field>
+
+              <mat-form-field  fxFlex="20%">
+                <input matInput placeholder="Nome da vaga" formControlName="nome">
+                <mat-error>
+                    O nome da vaga é obrigatório.
+                </mat-error>
+              </mat-form-field>
+
+              <div fxLayout.xs="row">
+                <button type="button" mat-mini-fab color="warn" fxFlex="nogrow" *ngIf="novaCampanhaForm.controls['vagas'].controls.length > 1" (click)="removeVaga(i)">
+                  <mat-icon>delete forever</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+          <button type="button" mat-raised-button color="primary" (click)="addVaga()">
+            <mat-icon>add box</mat-icon>
+            Adicionar vaga
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <button mat-flat-button color="accent" (click)="save(novaCampanhaForm.value, novaCampanhaForm.valid, $event)">Acicionar campanha</button>
+    </form>
+  </mat-card-content>
+</mat-card>

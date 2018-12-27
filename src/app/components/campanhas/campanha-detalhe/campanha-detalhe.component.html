@@ -1,0 +1,86 @@
+<mat-toolbar>
+  <button (click)="voltar()" mat-raised-button color="primary">VOLTAR</button>
+</mat-toolbar>
+<div class="grid-container">
+  <div id="b1">
+    <h3>{{campanha?.titulo}}</h3>
+
+    <h4>Sobre a campanha</h4>
+    <p>{{campanha?.descricao}}</p>
+
+    <div *ngIf="campanha?.tipo == 'Voluntariado' || campanha?.tipo == 'Material e Voluntariado'">
+      <h4>Vagas</h4>
+      <table mat-table [dataSource]="campanha.vagas" matSort>
+
+        <ng-container matColumnDef="qtd">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. </th>
+          <td mat-cell *matCellDef="let vaga">{{vaga?.qtd}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Função </th>
+          <td mat-cell *matCellDef="let vaga">{{vaga?.nome}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acao">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ação </th>
+          <td mat-cell *matCellDef="let vaga">
+            <button (click)="openDialogAjudarMaterial(campanha, vaga)" mat-raised-button color="accent">
+              Quero ajudar
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let vaga; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+
+
+
+    <div *ngIf="campanha?.tipo == 'Material' || campanha?.tipo == 'Material e Voluntariado'">
+      <h4>Materiais</h4>
+      <table mat-table [dataSource]="campanha.materiais" matSort>
+
+        <ng-container matColumnDef="qtd">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. </th>
+          <td mat-cell *matCellDef="let material">{{material?.qtd}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+          <td mat-cell *matCellDef="let material">{{material?.nome}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acao">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ação </th>
+          <td mat-cell *matCellDef="let material">
+            <button (click)="openDialogAjudarMaterial(campanha, material)" mat-raised-button color="accent">
+              Quero ajudar
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let material; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+  </div>
+  
+
+
+  <div id="b2">
+    <mat-card>
+      <div class="example-header-image"></div>
+      <mat-card-content>
+        <h3>{{campanha?.escola.nome}}</h3>
+        <h4>{{campanha?.escola.endereco.cidade}}/{{campanha?.escola.endereco.uf}}</h4>
+        <h4>{{campanha?.escola.endereco.bairro}}</h4>
+        <p>{{campanha?.escola.sobre}}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

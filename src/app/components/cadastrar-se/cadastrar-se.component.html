@@ -1,0 +1,60 @@
+<!-- FORMULÁRIO -->
+<mat-card>
+  <mat-progress-bar mode="indeterminate" *ngIf="isWait"></mat-progress-bar>
+  <mat-card-content>
+    <form [formGroup]="cadastrarSeForm" novalidate>
+      <mat-dialog-content>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="nome">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Sobrenome</mat-label>
+          <input matInput formControlName="sobrenome">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>CPF</mat-label>
+          <input matInput formControlName="cpf">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Data de Nascimento</mat-label>
+          <input matInput formControlName="data_nascimento">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Estado" [(value)]="selectedUF" formControlName="uf">
+            <mat-option *ngFor="let estado of estados" [value]='estado.value'>
+              {{estado.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Cidade" [(value)]="selectedCidade" formControlName="cidade">
+            <mat-option *ngFor="let cidade of cidades" [value]='cidade.value'>
+              {{cidade.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="password">
+        </mat-form-field>
+
+        <button mat-flat-button color="accent" (click)="cadastraUsuario(cadastrarSeForm.value, cadastrarSeForm.valid, $event)">Concluir cadastro</button>
+        <button mat-flat-button (click)="onCloseCancel()" color="accent">Cancelar</button>
+
+      </mat-dialog-content>
+    </form>
+  </mat-card-content>
+</mat-card>  

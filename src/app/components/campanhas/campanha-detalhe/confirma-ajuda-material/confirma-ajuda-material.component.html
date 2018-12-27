@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-content>
+    <div class="containerX">
+      <div fxLayout="row" fxFlex class="form-card">
+
+        <div *ngIf="data.material.qtd > 1" fxFlex>
+          <h5>Informe a quantidade de {{data.material.nome}} que deseja doar:</h5>
+          <form [formGroup]="formConfirmaAjudaMaterial" novalidate (ngSubmit)="createAjuda(formConfirmaAjudaMaterial.value, formConfirmaAjudaMaterial.valid, $event)">
+            <input matInput placeholder="Quantidade" type="number" max="data.material.qtd" formControlName="qtd" required>
+            <button mat-flat-button class="w5">Confirmar</button>
+          </form>          
+          <button mat-flat-button class="w5" (click)="onCloseCancel()">Cancelar</button>
+        </div>
+
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

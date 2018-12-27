@@ -1,0 +1,90 @@
+<div class="grid-container-50-50">
+  <mat-card id="b1">
+    <mat-card-content>
+      <button mat-flat-button *ngIf="!edicao" (click)="editar(perfil)" color="accent">Editar perfil</button>
+      <button mat-flat-button *ngIf="edicao" (click)="atualizaPerfil(atualizaEscolaForm.value, atualizaEscolaForm.valid, $event)" color="accent">Atualizar perfil</button>
+      <button mat-flat-button *ngIf="edicao" (click)="cancelarEdicao()" color="accent">Cancelar</button>
+      <form [formGroup]="atualizaEscolaForm" #customerForm="ngForm" novalidate>        
+        
+        <h2 *ngIf="!edicao">{{perfil?.nome}}</h2>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>Nome da escola</mat-label>
+          <input matInput formControlName="nome">
+        </mat-form-field>
+        
+        <p *ngIf="!edicao">{{perfil?.sobre}}</p>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>Sobre a escola</mat-label>
+          <textarea matInput formControlName="sobre"></textarea>
+        </mat-form-field>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card id="b2">
+    <mat-card-content>
+      <form [formGroup]="atualizaEscolaForm" novalidate>
+
+        <h4>Rede pública pertencente</h4>
+        <p *ngIf="!edicao">{{perfil?.rede}}</p>
+        <mat-radio-group *ngIf="edicao" class="example-radio-group" formControlName="rede">
+          <mat-radio-button class="example-radio-button" *ngFor="let rede of redes" [checked]="(perfil.rede == rede) ? true : false" [value]="rede">
+            {{rede}}
+          </mat-radio-button>
+          <br><br>
+        </mat-radio-group>        
+      
+        <h4>Etapa(s) educacional(is) que a escola oferece</h4>
+        <p *ngIf="!edicao">{{perfil?.etapa}}</p>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-select placeholder="Etapa(s)" true formControlName="etapa" multiple>
+            <mat-option *ngFor="let etapa of etapas" [value]="etapa">
+              {{etapa}}
+            </mat-option>            
+          </mat-select>
+        </mat-form-field>
+       
+        
+        <div formGroupName="endereco">
+          <h4>Localização</h4>
+          <p *ngIf="!edicao">{{perfil?.endereco.logradouro}}, {{perfil?.endereco.numero}}</p>
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Logradouro</mat-label>
+            <input matInput formControlName="logradouro">
+            <mat-hint>Rua, Avenida, etc...</mat-hint>
+          </mat-form-field>
+          
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Nº</mat-label>
+            <input matInput formControlName="numero">
+          </mat-form-field>
+          
+          <p *ngIf="!edicao">{{perfil?.endereco.bairro}}</p>
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Bairro</mat-label>
+            <input matInput formControlName="bairro">
+          </mat-form-field>
+          
+          <p *ngIf="!edicao">{{perfil?.endereco.cidade}}/{{perfil?.endereco.uf}}</p>
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-select placeholder="Estado" formControlName="uf">
+              <mat-option *ngFor="let estado of estados" [value]='estado.value'>
+                {{estado.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-select placeholder="Cidade" formControlName="cidade">
+              <mat-option *ngFor="let cidade of cidades" [value]='cidade.value'>
+                {{cidade.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

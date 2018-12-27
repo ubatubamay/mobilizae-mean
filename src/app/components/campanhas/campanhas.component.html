@@ -1,0 +1,20 @@
+<div class="card-small-container">
+  <mat-card class="card-small" *ngFor="let campanha of campanhas">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{campanha.escola.nome}}</mat-card-title>
+      <mat-card-subtitle>{{campanha.escola.endereco.cidade}}/{{campanha.escola.endereco.uf}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <h4>{{campanha.titulo}}</h4>
+      <p>
+        {{campanha.descricao}}
+      </p>
+      <p *ngIf="campanha.tipo == 'Material' || campanha.tipo == 'Material e Voluntariado'"><mat-icon>card_giftcard</mat-icon> Doação de material</p>
+      <p *ngIf="campanha.tipo == 'Voluntariado' || campanha.tipo == 'Material e Voluntariado'"><mat-icon>person</mat-icon> Vaga de voluntário</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="getCampanha(campanha)">VER CAMPANHA</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

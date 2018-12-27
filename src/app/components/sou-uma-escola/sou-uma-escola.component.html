@@ -1,0 +1,102 @@
+<div class="grid-container">
+  <mat-card id="b1">
+    <mat-card-content>
+      <form [formGroup]="cadastroEscolaForm" novalidate>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Nome da escola</mat-label>
+          <input matInput formControlName="nome">
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Sobre a escola</mat-label>
+          <textarea matInput formControlName="sobre"></textarea>
+        </mat-form-field>
+
+        
+        <h4>Rede pública pertencente</h4>
+
+        <mat-radio-group class="example-radio-group" formControlName="rede">
+          <mat-radio-button class="example-radio-button" *ngFor="let rede of redes" [value]="rede">
+            {{rede}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <br><br>
+      
+        <h4>Etapa(s) educacional(is) que a escola oferece</h4>
+
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Etapa(s)" formControlName="etapa" multiple>
+            <mat-option *ngFor="let etapa of etapas" [value]="etapa">
+              {{etapa}}
+            </mat-option>            
+          </mat-select>
+        </mat-form-field>
+
+
+        <h4>Localização</h4>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Logradouro</mat-label>
+          <input matInput formControlName="logradouro">
+          <mat-hint>Rua, Avenida, etc...</mat-hint>
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Nº</mat-label>
+          <input matInput formControlName="numero">
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Bairro</mat-label>
+          <input matInput formControlName="bairro">
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Estado" [(value)]="selectedUF" formControlName="uf">
+            <mat-option *ngFor="let estado of estados" [value]='estado.value'>
+              {{estado.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Cidade" [(value)]="selectedCidade" formControlName="cidade">
+            <mat-option *ngFor="let cidade of cidades" [value]='cidade.value'>
+              {{cidade.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
+
+        <h4>Login Mobilizaê</h4>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail da escola</mat-label>
+          <input matInput formControlName="email" placeholder="Ex.: escola@gmail.com">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class='w8'>
+          <mat-label>Senha</mat-label>
+          <input matInput [type]="hide? 'password' : 'text'" formControlName="password">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+
+        <button mat-flat-button (click)="cadastraUsuario(cadastroEscolaForm.value, cadastroEscolaForm.valid, $event)" color="accent">Cadastrar</button>
+      </form>
+      <p>
+        Form Status: {{ cadastroEscolaForm.value | json }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="banner-card" id="b2">
+    <mat-card-content>
+      <div class="banner-content">
+        <h1>Cadastre sua escola, divulgue suas campanhas e conte com sua comunidade!</h1>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
