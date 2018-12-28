@@ -1,5 +1,10 @@
 # Mobilizae
 
+Este é um projeto em desenvolvimento.
+
+Mobilizaê é uma plataforma online criada para mobilizar os cidadãos a apoiarem as escolas públicas brasileiras através de doações de materiais e pestação de voluntariado.
+Esta solução surgiu de uma proposta de trabalho de conclusão do curso de Tecnologia em Sistemas para Internet oferecido pelo Instituto Federal Sul-Riograndense. Este trabalho é de autoria da aluna Mayra Ubatuba da Silveira.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.3.
 
 ## Development server
@@ -14,13 +19,8 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Tests
+There isn't test files in this project
 
 ## Further help
 
