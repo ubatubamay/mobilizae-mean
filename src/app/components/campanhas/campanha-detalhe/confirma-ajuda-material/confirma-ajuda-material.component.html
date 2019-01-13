@@ -1,16 +1,30 @@
 <mat-card>
   <mat-card-content>
     <div class="containerX">
-      <div fxLayout="row" fxFlex class="form-card">
+      <div fxLayout="row" fxFlex class="form-card" *ngIf="usuario">
 
         <div *ngIf="data.material.qtd > 1" fxFlex>
-          <h5>Informe a quantidade de {{data.material.nome}} que deseja doar:</h5>
+          <h4>Informe a quantidade de {{data.material.nome}} que deseja doar:</h4>
           <form [formGroup]="formConfirmaAjudaMaterial" novalidate (ngSubmit)="createAjuda(formConfirmaAjudaMaterial.value, formConfirmaAjudaMaterial.valid, $event)">
-            <input matInput placeholder="Quantidade" type="number" max="data.material.qtd" formControlName="qtd" required>
-            <button mat-flat-button class="w5">Confirmar</button>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Quantidade</mat-label>
+              <input matInput placeholder="Quantidade" type="number" max="data.material.qtd" formControlName="qtd" required>
+            </mat-form-field>            
+            
+            <button mat-flat-button class="w5" color="accent">Confirmar</button>
           </form>          
-          <button mat-flat-button class="w5" (click)="onCloseCancel()">Cancelar</button>
+          <button mat-flat-button class="w5" (click)="onCloseCancel()" color="accent">Cancelar</button>
         </div>
+
+      </div>
+
+
+      <div fxLayout="row" fxFlex class="form-card" *ngIf="!usuario">
+
+        <h3>É necessário fazer login</h3>
+
+        <app-login></app-login>
 
       </div>
     </div>

@@ -1,13 +1,21 @@
 <mat-card>
   <mat-card-content>
     <div class="containerX">
-      <div fxLayout="row" fxFlex class="form-card">
+      <div fxLayout="row" fxFlex class="form-card" *ngIf="usuario">
         <div fxFlex>
 
-          <h5>Você confirma a inscrição para 1 vaga de {{data.vaga.nome}} na campanha {{data.campanha.titulo}}?</h5>
-          <button mat-flat-button class="w5" (click)="createAjuda()">SIM</button>
-          <button mat-flat-button class="w5" (click)="onCloseCancel()">NÃO</button>
+          <h4>Você confirma a inscrição para 1 vaga de {{data.vaga.nome}} na campanha {{data.campanha.titulo}}?</h4>
+          <button mat-flat-button class="w5" (click)="createAjuda()" color="accent">SIM</button>
+          <button mat-flat-button class="w5" (click)="onCloseCancel()" color="accent">NÃO</button>
         </div>
+      </div>
+
+      <div fxLayout="row" fxFlex class="form-card" *ngIf="!usuario">
+
+        <h3>É necessário fazer login</h3>
+
+        <app-login></app-login>
+
       </div>
     </div>
   </mat-card-content>
