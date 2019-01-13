@@ -4,16 +4,10 @@ import { Validators, FormControl, FormGroup, FormArray, FormBuilder } from '@ang
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { NotificacaoService } from '../compartilhado/mensagens/notificacao.service';
 import { Router } from '@angular/router';
-
-export interface UF {
-  value: string;
-  viewValue: string;
-}
-
-export interface Cidade {
-  value: string;
-  viewValue: string;
-}
+import { switchMap, debounceTime, startWith, map } from 'rxjs/operators';
+import { EstadosService } from 'src/app/services/estados.service';
+import { Estados } from 'src/app/models/estados';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cadastrar-se',
@@ -22,37 +16,33 @@ export interface Cidade {
 })
 export class CadastrarSeComponent implements OnInit {
 
+  hide = true;
   isWait: Boolean = false;
 
-  selectedUF = '';
-  estados: UF[] = [
-    {value: 'RS', viewValue: 'Rio Grande do Sul'},
-    {value: 'SC', viewValue: 'Santa Catarina'},
-    {value: 'CE', viewValue: 'Ceará'}
-  ];
-  selectedCidade = '';
-  cidades: Cidade[] = [
-    {value: 'ch', viewValue: 'Charqueadas'},
-    {value: 'sj', viewValue: 'São Jerônimo'},
-    {value: 'poa', viewValue: 'Porto Alegre'}
-  ];
+  filtroEstados: Observable<Estados[]>;
+  estados: Estados[];
+  selectedEstado: Estados;
+
+  filtroCidades: Observable<string[]>;
+  cidades: string[];
 
   cadastrarSeForm = this.fb.group({
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     nome: ['', Validators.required],
     sobrenome: ['', Validators.required],
     cpf: ['', Validators.required],
     data_nascimento: ['', Validators.required], 
     cidade: ['', Validators.required], 
-    uf: ['', Validators.required]
+    uf: [null, Validators.required]
   });
 
   constructor(public thisDiologRef: MatDialogRef<CadastrarSeComponent>,
               private fb: FormBuilder,
               private router: Router,
               private _usuarios: UsuariosService,
-              private _notif: NotificacaoService) { }
+              private _notif: NotificacaoService,
+              private _estados: EstadosService) { }
 
   onCloseConfirm() {
     this.thisDiologRef.close('Confirm');
@@ -64,6 +54,7 @@ export class CadastrarSeComponent implements OnInit {
 
   cadastraUsuario(model: any, isValid: boolean, e: any) {
     model.perfil = 'cidadao';
+    model.uf = model.uf.sigla;
     e.preventDefault();
     if (isValid){
       this.isWait = true;
@@ -85,6 +76,55 @@ export class CadastrarSeComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.cadastrarSeForm.get('cidade').disable();
+
+    this._estados.getEstados()
+      .subscribe(
+        res => this.estados = res,
+        err => console.log(err)
+      );
+
+    this.filtroEstados = this.cadastrarSeForm.get('uf').valueChanges
+      .pipe(
+        startWith<string | Estados>(''),
+        map(value => typeof value === 'string' ? value : value.nome),
+        map(name => name ? this._filter(name) : [])
+      );
+
+    this.filtroCidades = this.cadastrarSeForm.get('cidade').valueChanges
+      .pipe(
+        startWith<string>(''),
+        map(value => typeof value === 'string' ? value : value),
+        map(name => name ? this._filterCidades(name) : [])
+      );
+  }
+
+  // FUNÇÕES ESTADOS
+
+  displayFn(estado?: Estados): string | undefined {
+    return estado ? estado.nome : undefined;
+  }
+
+  private _filter(name: string): Estados[] {
+    const filterValue = name.toLowerCase();
+
+    return this.estados.filter(option => option.nome.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  selecionado(estado) {
+    this.selectedEstado = estado;
+    this.cadastrarSeForm.get('cidade').setValue('');
+    this.cadastrarSeForm.get('cidade').enable();
+    this.cidades = this.selectedEstado.cidades;
+  }
+
+
+  // FUNÇÕES CIDADES
+
+  private _filterCidades(name: string): string[]{
+    const filterValue = name.toLowerCase();
+    return this.cidades.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
 }

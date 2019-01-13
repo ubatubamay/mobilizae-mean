@@ -50,9 +50,9 @@ export class LoginComponent implements OnInit {
             this.onCloseCancel();
             location.reload();
             if (data.user.perfil === 'escola') {
-              this.router.navigate(['/area-escola']);
+              this.router.navigate(['area-escola']);
             } else {
-              this.router.navigate(['/area-cidadao']);
+              this.router.navigate(['area-cidadao']);
             }
           },
           error => {

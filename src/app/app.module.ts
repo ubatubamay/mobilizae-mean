@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CompartilhadoModulo } from './components/compartilhado/compartilhado.module';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { PaginaInicialComponent } from './components/pagina-inicial/pagina-inicial.component';
@@ -76,6 +77,7 @@ import { ConfirmaAjudaMaterialComponent } from './components/campanhas/campanha-
     MatTableModule,
     MatPaginatorModule,
     MatProgressBarModule,
+    MatAutocompleteModule,
     CompartilhadoModulo.footRoot(),
     RouterModule.forRoot([
       {path: '', component: PaginaInicialComponent},

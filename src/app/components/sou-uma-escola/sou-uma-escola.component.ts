@@ -3,16 +3,10 @@ import { Validators, FormControl, FormGroup, FormArray, FormBuilder } from '@ang
 import { Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { NotificacaoService } from '../compartilhado/mensagens/notificacao.service';
-
-export interface UF {
-  value: string;
-  viewValue: string;
-}
-
-export interface Cidade {
-  value: string;
-  viewValue: string;
-}
+import { Observable } from 'rxjs';
+import { Estados } from 'src/app/models/estados';
+import { EstadosService } from 'src/app/services/estados.service';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sou-uma-escola',
@@ -24,20 +18,15 @@ export class SouUmaEscolaComponent implements OnInit {
   hide = true;
   isWait: Boolean = false;
 
+  filtroEstados: Observable<Estados[]>;
+  estados: Estados[];
+  selectedEstado: Estados;
+
+  filtroCidades: Observable<string[]>;
+  cidades: string[];
+
   redes: string[] = ['Municipal', 'Estadual', 'Federal'];
   etapas: string[] = ['Infantil', 'Fundamental', 'Médio', 'Técnico', 'Superior'];
-  selectedUF = '';
-  estados: UF[] = [
-    {value: 'RS', viewValue: 'Rio Grande do Sul'},
-    {value: 'SC', viewValue: 'Santa Catarina'},
-    {value: 'CE', viewValue: 'Ceará'}
-  ];
-  selectedCidade = '';
-  cidades: Cidade[] = [
-    {value: 'ch', viewValue: 'Charqueadas'},
-    {value: 'sj', viewValue: 'São Jerônimo'},
-    {value: 'poa', viewValue: 'Porto Alegre'}
-  ];
 
   cadastroEscolaForm = this.fb.group({
     perfil: ['escola'],
@@ -57,13 +46,38 @@ export class SouUmaEscolaComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private router: Router,
               private _usuarios: UsuariosService,
-              private _notif: NotificacaoService) { }
+              private _notif: NotificacaoService,
+              private _estados: EstadosService) { }
 
   ngOnInit() {
+
+    this.cadastroEscolaForm.get('cidade').disable();
+
+    this._estados.getEstados()
+      .subscribe(
+        res => this.estados = res,
+        err => console.log(err)
+      );
+
+    this.filtroEstados = this.cadastroEscolaForm.get('uf').valueChanges
+      .pipe(
+        startWith<string | Estados>(''),
+        map(value => typeof value === 'string' ? value : value.nome),
+        map(name => name ? this._filter(name) : [])
+      );
+
+    this.filtroCidades = this.cadastroEscolaForm.get('cidade').valueChanges
+      .pipe(
+        startWith<string>(''),
+        map(value => typeof value === 'string' ? value : value),
+        map(name => name ? this._filterCidades(name) : [])
+      );
+
   }
 
   cadastraUsuario(model: any, isValid: boolean, e: any) {
     model.perfil = 'escola';
+    model.uf = model.uf.sigla;
     e.preventDefault();
     if (isValid){
       this.isWait = true;
@@ -82,4 +96,32 @@ export class SouUmaEscolaComponent implements OnInit {
         );
     }
   }
+
+  // FUNÇÕES ESTADOS
+
+  displayFn(estado?: Estados): string | undefined {
+    return estado ? estado.nome : undefined;
+  }
+
+  private _filter(name: string): Estados[] {
+    const filterValue = name.toLowerCase();
+
+    return this.estados.filter(option => option.nome.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  selecionado(estado) {
+    this.selectedEstado = estado;
+    this.cadastroEscolaForm.get('cidade').setValue('');
+    this.cadastroEscolaForm.get('cidade').enable();
+    this.cidades = this.selectedEstado.cidades;
+  }
+
+
+  // FUNÇÕES CIDADES
+
+  private _filterCidades(name: string): string[]{
+    const filterValue = name.toLowerCase();
+    return this.cidades.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  }
+
 }

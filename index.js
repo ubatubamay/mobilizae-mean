@@ -22,5 +22,9 @@ app.use('/api/usuarios', require('./api/routes/usuario.routes'));
 app.use('/api/auth', require('./api/routes/autenticacao.routes'));
 app.use('/api/campanhas', require('./api/routes/campanha.routes'));
 app.use('/api/ajudas', require('./api/routes/ajuda.routes'));
+app.use('/api/estados', require('./api/routes/estado.routes'));
+app.use('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/mobilizae/index.html'));
+});  
 
 module.exports = app;

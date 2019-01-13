@@ -51,21 +51,41 @@
           <mat-label>Bairro</mat-label>
           <input matInput formControlName="bairro">
         </mat-form-field>
-      
+
         <mat-form-field appearance="outline">
-          <mat-select placeholder="Estado" [(value)]="selectedUF" formControlName="uf">
-            <mat-option *ngFor="let estado of estados" [value]='estado.value'>
-              {{estado.viewValue}}
+          <mat-select placeholder="Estado" [(value)]="selectedEstado" formControlName="uf" (selectionChange)="selecionado(selectedEstado)">
+            <mat-option *ngFor="let estado of estados" [value]='estado'>
+              {{estado.nome}}
             </mat-option>
           </mat-select>
         </mat-form-field>
       
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="Cidade" [(value)]="selectedCidade" formControlName="cidade">
-            <mat-option *ngFor="let cidade of cidades" [value]='cidade.value'>
-              {{cidade.viewValue}}
+        <!-- ESTADO FORMATO AUTOCOMPLETE -->
+        <!-- <mat-form-field appearance="outline">
+          <input type="text" placeholder="Estado" matInput formControlName="uf" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selecionado(cadastrarSeForm.value.uf)">
+            <mat-option *ngFor="let estado of filtroEstados | async" [value]="estado">
+              {{estado.nome}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field> -->
+
+        <!-- CIDADE FORMATO SELECT -->
+        <!-- <mat-form-field appearance="outline" *ngIf="selectedEstado">
+          <mat-select placeholder="Cidade" formControlName="cidade">
+            <mat-option *ngFor="let cidade of selectedEstado.cidades" [value]='cidade'>
+              {{cidade}}
             </mat-option>
           </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="outline">
+          <input type="text" placeholder="Cidade" matInput formControlName="cidade" [matAutocomplete]="autom">
+          <mat-autocomplete #autom="matAutocomplete">
+            <mat-option *ngFor="let cidade of filtroCidades | async" [value]="cidade">
+              {{cidade}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
 
 

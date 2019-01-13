@@ -10,8 +10,8 @@
       <p>
         {{campanha.descricao}}
       </p>
-      <p *ngIf="campanha.tipo == 'Material' || campanha.tipo == 'Material e Voluntariado'"><mat-icon>card_giftcard</mat-icon> Doação de material</p>
-      <p *ngIf="campanha.tipo == 'Voluntariado' || campanha.tipo == 'Material e Voluntariado'"><mat-icon>person</mat-icon> Vaga de voluntário</p>
+      <p *ngIf="campanha.tipo != 'Voluntariado'"><mat-icon>card_giftcard</mat-icon> Doação de material</p>
+      <p *ngIf="campanha.tipo != 'Material'"><mat-icon>person</mat-icon> Vaga de voluntário</p>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="getCampanha(campanha)">VER CAMPANHA</button>
