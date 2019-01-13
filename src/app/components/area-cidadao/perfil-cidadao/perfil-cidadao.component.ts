@@ -5,16 +5,10 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { NotificacaoService } from '../../compartilhado/mensagens/notificacao.service';
-
-export interface UF {
-  value: string;
-  viewValue: string;
-}
-
-export interface Cidade {
-  value: string;
-  viewValue: string;
-}
+import { Observable } from 'rxjs';
+import { Estados } from 'src/app/models/estados';
+import { EstadosService } from 'src/app/services/estados.service';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-perfil-cidadao',
@@ -28,21 +22,14 @@ export class PerfilCidadaoComponent implements OnInit {
   perfil: any;
   isWait = false;
 
+  estados: Estados[];
+  selectedEstado: Estados;
+
+  filtroCidades: Observable<string[]>;
+  cidades: string[];
+
   redes: string[] = ['Municipal', 'Estadual', 'Federal'];
   etapas: string[] = ['Infantil', 'Fundamental', 'Médio', 'Técnico', 'Superior'];
-  selectedUF = '';
-  estados: UF[] = [
-    {value: 'RS', viewValue: 'Rio Grande do Sul'},
-    {value: 'SC', viewValue: 'Santa Catarina'},
-    {value: 'CE', viewValue: 'Ceará'}
-  ];
-  
-  selectedCidade = '';
-  cidades: Cidade[] = [
-    {value: 'Charqueadas', viewValue: 'Charqueadas'},
-    {value: 'São Jerônimo', viewValue: 'São Jerônimo'},
-    {value: 'Porto Alegre', viewValue: 'Porto Alegre'}
-  ];
 
   atualizaCidadaoForm = this.fb.group({
     nome: ['', Validators.required],
@@ -63,28 +50,48 @@ export class PerfilCidadaoComponent implements OnInit {
               private router: Router,
               private _auth: AuthService,
               private _usuarios: UsuariosService,
-              private _notif: NotificacaoService) { }
+              private _notif: NotificacaoService,
+              private _estados: EstadosService) { }
 
   ngOnInit() {
     this.exibePerfil(this.usuario.userId);
   }
 
   editar(perfil) {
+
+    this._estados.getEstados()
+      .subscribe(
+        res => {
+          this.estados = res;  
+          let result: Estados[] = this.estados.filter(option => option.sigla.indexOf(perfil.endereco.uf) === 0);
+          this.selectedEstado = result[0];
+          this.cidades = this.selectedEstado.cidades;
+          this.atualizaCidadaoForm = this.fb.group({
+            nome: [perfil.nome, Validators.required],
+            sobrenome: [perfil.sobrenome, Validators.required],
+            sobre: [perfil.sobre, Validators.required],
+            cpf: [perfil.cpf],
+            data_nascimento: [perfil.data_nascimento],
+            endereco: this.fb.group({
+              logradouro: [perfil.endereco.logradouro], 
+              numero: [perfil.endereco.numero],
+              bairro: [perfil.endereco.bairro], 
+              cidade: [perfil.endereco.cidade, Validators.required], 
+              uf: [this.selectedEstado, Validators.required]
+            })
+          });
+
+          this.filtroCidades = this.atualizaCidadaoForm.get('endereco').get('cidade').valueChanges
+            .pipe(
+              startWith<string>(''),
+              map(value => typeof value === 'string' ? value : value),
+              map(name => name ? this._filterCidades(name) : [])
+            );
+        },
+        err => console.log(err)
+      );
+
     this.edicao = true;
-    this.atualizaCidadaoForm = this.fb.group({
-      nome: [perfil.nome, Validators.required],
-      sobrenome: [perfil.sobrenome, Validators.required],
-      sobre: [perfil.sobre, Validators.required],
-      cpf: [perfil.cpf],
-      data_nascimento: [perfil.data_nascimento],
-      endereco: this.fb.group({
-        logradouro: [perfil.endereco.logradouro], 
-        numero: [perfil.endereco.numero],
-        bairro: [perfil.endereco.bairro], 
-        cidade: [perfil.endereco.cidade, Validators.required], 
-        uf: [perfil.endereco.uf, Validators.required]
-      })
-    });
   }
 
   cancelarEdicao() {
@@ -101,6 +108,7 @@ export class PerfilCidadaoComponent implements OnInit {
 
   atualizaPerfil(model: any, isValid: boolean, e: any){
     e.preventDefault();
+    model.endereco.uf = model.endereco.uf.sigla;
     if (isValid){
       this.isWait = true;
       this._usuarios.updateUsuario(this.usuario.userId, model)
@@ -117,6 +125,22 @@ export class PerfilCidadaoComponent implements OnInit {
           }
         );
     }
+  }
+
+  // FUNÇÕES ESTADOS
+
+  selecionado(estado) {
+    this.selectedEstado = estado;
+    this.atualizaCidadaoForm.get('endereco').get('cidade').setValue('');
+    this.cidades = this.selectedEstado.cidades;
+  }
+
+
+  // FUNÇÕES CIDADES
+
+  private _filterCidades(name: string): string[]{
+    const filterValue = name.toLowerCase();
+    return this.cidades.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
 }

@@ -31,13 +31,15 @@
     <mat-card-content>
       <form [formGroup]="atualizaCidadaoForm" novalidate>
 
-        <h2 *ngIf="!edicao">{{perfil?.cpf}}</h2>
+        <h4 *ngIf="!edicao">CPF</h4>
+        <p *ngIf="!edicao">{{perfil?.cpf}}</p>
         <mat-form-field *ngIf="edicao" appearance="outline">
           <mat-label>CPF</mat-label>
           <input matInput formControlName="cpf">
         </mat-form-field>
 
-        <h2 *ngIf="!edicao">{{perfil?.data_nascimento}}</h2>
+        <h4 *ngIf="!edicao">Data de nascimento</h4>
+        <p *ngIf="!edicao">{{perfil?.data_nascimento}}</p>
         <mat-form-field *ngIf="edicao" appearance="outline">
           <mat-label>Data de nascimento</mat-label>
           <input matInput formControlName="data_nascimento">
@@ -63,8 +65,27 @@
             <mat-label>Bairro</mat-label>
             <input matInput formControlName="bairro">
           </mat-form-field>
+
           
           <p *ngIf="!edicao">{{perfil?.endereco.cidade}}/{{perfil?.endereco.uf}}</p>
+          <mat-form-field appearance="outline" *ngIf="edicao">
+            <mat-select placeholder="Estado" [(value)]="selectedEstado" formControlName="uf" (selectionChange)="selecionado(selectedEstado)">
+              <mat-option *ngFor="let estado of estados" [value]='estado'>
+                {{estado.nome}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" *ngIf="edicao">
+            <input type="text" placeholder="Cidade" matInput formControlName="cidade" [matAutocomplete]="autom">
+            <mat-autocomplete #autom="matAutocomplete">
+              <mat-option *ngFor="let cidade of filtroCidades | async" [value]="cidade">
+                {{cidade}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          
+          <!-- <p *ngIf="!edicao">{{perfil?.endereco.cidade}}/{{perfil?.endereco.uf}}</p>
           <mat-form-field *ngIf="edicao" appearance="outline">
             <mat-select placeholder="Estado" formControlName="uf">
               <mat-option *ngFor="let estado of estados" [value]='estado.value'>
@@ -79,7 +100,8 @@
                 {{cidade.viewValue}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
+
         </div>
         
       </form>

@@ -5,16 +5,10 @@ import { Usuario } from 'src/app/models/usuarios';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { NotificacaoService } from '../../compartilhado/mensagens/notificacao.service';
 import { Router } from '@angular/router';
-
-export interface UF {
-  value: string;
-  viewValue: string;
-}
-
-export interface Cidade {
-  value: string;
-  viewValue: string;
-}
+import { Estados } from 'src/app/models/estados';
+import { Observable } from 'rxjs';
+import { EstadosService } from 'src/app/services/estados.service';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-perfil-escola',
@@ -28,21 +22,14 @@ export class PerfilEscolaComponent implements OnInit {
   perfil: any;
   isWait = false;
 
+  estados: Estados[];
+  selectedEstado: Estados;
+
+  filtroCidades: Observable<string[]>;
+  cidades: string[];
+
   redes: string[] = ['Municipal', 'Estadual', 'Federal'];
   etapas: string[] = ['Infantil', 'Fundamental', 'Médio', 'Técnico', 'Superior'];
-  selectedUF = '';
-  estados: UF[] = [
-    {value: 'RS', viewValue: 'Rio Grande do Sul'},
-    {value: 'SC', viewValue: 'Santa Catarina'},
-    {value: 'CE', viewValue: 'Ceará'}
-  ];
-  
-  selectedCidade = '';
-  cidades: Cidade[] = [
-    {value: 'Charqueadas', viewValue: 'Charqueadas'},
-    {value: 'São Jerônimo', viewValue: 'São Jerônimo'},
-    {value: 'Porto Alegre', viewValue: 'Porto Alegre'}
-  ];
 
   atualizaEscolaForm = this.fb.group({
     nome: ['', Validators.required],
@@ -62,28 +49,48 @@ export class PerfilEscolaComponent implements OnInit {
               private router: Router,
               private _auth: AuthService,
               private _usuarios: UsuariosService,
-              private _notif: NotificacaoService) { }
+              private _notif: NotificacaoService,
+              private _estados: EstadosService) { }
 
   ngOnInit() {
     this.exibePerfil(this.usuario.userId);
   }
 
   editar(perfil) {
+
+    this._estados.getEstados()
+      .subscribe(
+        res => {
+          this.estados = res;  
+          let result: Estados[] = this.estados.filter(option => option.sigla.indexOf(perfil.endereco.uf) === 0);
+          this.selectedEstado = result[0];
+          this.cidades = this.selectedEstado.cidades;
+          var etapas = perfil.etapa.split(',');
+          this.atualizaEscolaForm = this.fb.group({
+            nome: [perfil.nome, Validators.required],
+            sobre: [perfil.sobre, Validators.required],    
+            rede: [perfil.rede, Validators.required],
+            etapa: [etapas, Validators.required],
+            endereco: this.fb.group({
+              logradouro: [perfil.endereco.logradouro, Validators.required], 
+              numero: [perfil.endereco.numero, Validators.required],
+              bairro: [perfil.endereco.bairro, Validators.required], 
+              cidade: [perfil.endereco.cidade, Validators.required], 
+              uf: [this.selectedEstado, Validators.required]
+            })
+          });
+
+          this.filtroCidades = this.atualizaEscolaForm.get('endereco').get('cidade').valueChanges
+            .pipe(
+              startWith<string>(''),
+              map(value => typeof value === 'string' ? value : value),
+              map(name => name ? this._filterCidades(name) : [])
+            );
+        },
+        err => console.log(err)
+      );
+
     this.edicao = true;
-    var etapas = perfil.etapa.split(',');
-    this.atualizaEscolaForm = this.fb.group({
-      nome: [perfil.nome, Validators.required],
-      sobre: [perfil.sobre, Validators.required],    
-      rede: [perfil.rede, Validators.required],
-      etapa: [etapas, Validators.required],
-      endereco: this.fb.group({
-        logradouro: [perfil.endereco.logradouro, Validators.required], 
-        numero: [perfil.endereco.numero, Validators.required],
-        bairro: [perfil.endereco.bairro, Validators.required], 
-        cidade: [perfil.endereco.cidade, Validators.required], 
-        uf: [perfil.endereco.uf, Validators.required]
-      })
-    });
   }
 
   cancelarEdicao() {
@@ -100,6 +107,7 @@ export class PerfilEscolaComponent implements OnInit {
 
   atualizaPerfil(model: any, isValid: boolean, e: any){
     e.preventDefault();
+    model.endereco.uf = model.endereco.uf.sigla;
     if (isValid){
       this.isWait = true;
       this._usuarios.updateUsuario(this.usuario.userId, model)
@@ -116,6 +124,22 @@ export class PerfilEscolaComponent implements OnInit {
           }
         );
     }
+  }
+
+  // FUNÇÕES ESTADOS
+
+  selecionado(estado) {
+    this.selectedEstado = estado;
+    this.atualizaEscolaForm.get('endereco').get('cidade').setValue('');
+    this.cidades = this.selectedEstado.cidades;
+  }
+
+
+  // FUNÇÕES CIDADES
+
+  private _filterCidades(name: string): string[]{
+    const filterValue = name.toLowerCase();
+    return this.cidades.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
 }

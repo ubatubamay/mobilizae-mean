@@ -17,7 +17,7 @@
           <mat-label>Sobre a escola</mat-label>
           <textarea matInput formControlName="sobre"></textarea>
         </mat-form-field>
-
+        
       </form>
     </mat-card-content>
   </mat-card>
@@ -67,6 +67,24 @@
           </mat-form-field>
           
           <p *ngIf="!edicao">{{perfil?.endereco.cidade}}/{{perfil?.endereco.uf}}</p>
+          <mat-form-field appearance="outline" *ngIf="edicao">
+            <mat-select placeholder="Estado" [(value)]="selectedEstado" formControlName="uf" (selectionChange)="selecionado(selectedEstado)">
+              <mat-option *ngFor="let estado of estados" [value]='estado'>
+                {{estado.nome}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" *ngIf="edicao">
+            <input type="text" placeholder="Cidade" matInput formControlName="cidade" [matAutocomplete]="autom">
+            <mat-autocomplete #autom="matAutocomplete">
+              <mat-option *ngFor="let cidade of filtroCidades | async" [value]="cidade">
+                {{cidade}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          
+          <!-- <p *ngIf="!edicao">{{perfil?.endereco.cidade}}/{{perfil?.endereco.uf}}</p>
           <mat-form-field *ngIf="edicao" appearance="outline">
             <mat-select placeholder="Estado" formControlName="uf">
               <mat-option *ngFor="let estado of estados" [value]='estado.value'>
@@ -81,7 +99,8 @@
                 {{cidade.viewValue}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
+
         </div>
         
       </form>
