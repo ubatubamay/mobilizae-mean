@@ -55,4 +55,8 @@ export class AjudasService {
     return this.http.delete(this.URL_API + `/${_id}`);
   }
 
+  putAjudaStatus(id, novoStatus) {
+    return this.http.put(this.URL_API + '/status/'+id, novoStatus);
+  }
+
 }

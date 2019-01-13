@@ -7,5 +7,6 @@ router.post('/', ajuda.registerAjuda);
 router.get('/filter/requisicao/escola/:id', ajuda.getAjudaPorTipo);
 router.get('/filter/cidadao/:id', ajuda.getAjudaPorUsuario);
 router.get('/:id', ajuda.getAjuda);
+router.put('/status/:id', ajuda.atualizaStatus);
 
 module.exports = router;

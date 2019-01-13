@@ -41,4 +41,11 @@ ajudaCtrl.getAjudaPorUsuario = async (req, res) => {
     });
 }
 
+ajudaCtrl.atualizaStatus = async (req, res) => {
+    await Ajuda.findByIdAndUpdate(req.params.id, { status: req.body.descricao }, {new: true})
+    res.json('Status atualizado');
+}
+
+
+
 module.exports = ajudaCtrl;
