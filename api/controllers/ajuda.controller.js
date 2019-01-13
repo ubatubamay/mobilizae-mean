@@ -33,4 +33,12 @@ ajudaCtrl.getAjudaPorTipo = async (req, res) => {
     });
 }
 
+ajudaCtrl.getAjudaPorUsuario = async (req, res) => {
+    await Ajuda.find({usuario: req.params.id})
+        .populate({path:'campanha', populate: {path: 'escola'}}).exec(function(err, ajudas) {
+            if (err) throw err;
+            res.json(ajudas);
+    });
+}
+
 module.exports = ajudaCtrl;

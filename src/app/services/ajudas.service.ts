@@ -30,6 +30,11 @@ export class AjudasService {
     return this.http.get<any>(this.URL_API + `/filter/requisicao/escola/${id}`);
   }
 
+  getAjudasCidadao(id: string) {
+    return this.http.get<any>(this.URL_API + `/filter/cidadao/${id}`);
+  }
+
+
 
   postAjuda(ajuda: Ajudas): Observable<string> {
     let headers = new HttpHeaders();

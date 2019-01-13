@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AreaCidadaoComponent implements OnInit {
 
+  links = ['Minhas ajudas', 'Perfil'];
+  activeLink = this.links[0];
+
   constructor() { }
 
   ngOnInit() {

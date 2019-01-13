@@ -8,6 +8,12 @@ const AjudaSchema = new Schema({
     tipo: { type: String },
     contribuicao: { type: String },
     qtd: { type: Number }
+},
+{
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+      }
 });
 
 module.exports = mongoose.model('Ajudas', AjudaSchema);

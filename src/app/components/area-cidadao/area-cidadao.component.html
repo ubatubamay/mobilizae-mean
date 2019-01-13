@@ -1,3 +1,6 @@
-<p>
-  area-cidadao works!
-</p>
+<nav mat-tab-nav-bar>
+  <a mat-tab-link [routerLink]="['minhas-ajudas']" routerLinkActive="detail-active">Minhas ajudas</a>
+  <a mat-tab-link [routerLink]="['perfil-cidadao']" routerLinkActive="detail-active">Perfil</a>
+</nav>
+
+<router-outlet></router-outlet>

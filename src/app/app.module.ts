@@ -35,6 +35,8 @@ import { PerfilEscolaComponent } from './components/area-escola/perfil-escola/pe
 import { CampanhaDetalheComponent } from './components/campanhas/campanha-detalhe/campanha-detalhe.component';
 import { ConfirmaAjudaVagaComponent } from './components/campanhas/campanha-detalhe/confirma-ajuda-vaga/confirma-ajuda-vaga.component';
 import { ConfirmaAjudaMaterialComponent } from './components/campanhas/campanha-detalhe/confirma-ajuda-material/confirma-ajuda-material.component';
+import { MinhasAjudasComponent } from './components/area-cidadao/minhas-ajudas/minhas-ajudas.component';
+import { PerfilCidadaoComponent } from './components/area-cidadao/perfil-cidadao/perfil-cidadao.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { ConfirmaAjudaMaterialComponent } from './components/campanhas/campanha-
     PerfilEscolaComponent,
     CampanhaDetalheComponent,
     ConfirmaAjudaVagaComponent,
-    ConfirmaAjudaMaterialComponent
+    ConfirmaAjudaMaterialComponent,
+    MinhasAjudasComponent,
+    PerfilCidadaoComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +86,7 @@ import { ConfirmaAjudaMaterialComponent } from './components/campanhas/campanha-
     RouterModule.forRoot([
       {path: '', component: PaginaInicialComponent},
       {path: 'campanhas', component: CampanhasComponent},
+      {path: 'campanha/:id', component: CampanhaDetalheComponent},
       {path: 'sou-uma-escola', component: SouUmaEscolaComponent},
       {path: 'area-escola', component: AreaEscolaComponent,
         children: [
@@ -91,8 +96,13 @@ import { ConfirmaAjudaMaterialComponent } from './components/campanhas/campanha-
           {path: 'perfil-escola', component: PerfilEscolaComponent},
           
         ]},
-      {path: 'area-cidadao', component: AreaCidadaoComponent},
-      {path: 'campanha/:id', component: CampanhaDetalheComponent}
+      {path: 'area-cidadao', component: AreaCidadaoComponent,
+        children: [
+          {path: '', redirectTo: 'minhas-ajudas', pathMatch: 'full'},
+          {path: 'minhas-ajudas', component: MinhasAjudasComponent},
+          {path: 'perfil-cidadao', component: PerfilCidadaoComponent}
+          
+        ]}
     ])
   ],
   entryComponents: [
