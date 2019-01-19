@@ -56,16 +56,12 @@ body{
     margin-left:auto;
 }
 
-.container-cards {
-    width:90%;
-    height:300px;
-    padding-top:30px;
-    padding-right:15px;
-    padding-left:15px;
-    margin-right:auto;
-    margin-left:auto;
+.mat-table, .mat-card, .mat-button, .mat-flat-button, .mat-form-field {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-.mat-table, .mat-card {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

@@ -21,7 +21,7 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout (function(){
       var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 4,
+        slidesPerView: 5,
         spaceBetween: 50,
         autoplay: {
           delay: 3500,
@@ -33,17 +33,21 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
           clickable: true,
         },
         breakpoints: {
-          1024: {
-            slidesPerView: 3,
+          1820: {
+            slidesPerView: 4,
             spaceBetween: 40,
           },
-          768: {
+          1220: {
             slidesPerView: 3,
-            spaceBetween: 30,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 20,
           },
           640: {
             slidesPerView: 2,
-            spaceBetween: 20,
+            spaceBetween: 10,
           },
           490: {
             slidesPerView: 1,
@@ -51,7 +55,7 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
           }
         }
       });
-    }, 300);
+    }, 100);
   }
 
   ngOnInit() {
