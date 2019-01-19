@@ -21,4 +21,11 @@ campanhaCtrl.getCampanha = async (req, res) => {
     res.json(campanha);
 }
 
+campanhaCtrl.buscaCamapanha = async (req, res) => {
+    var busca = req.body;
+    const campanhasBusca = await Campanha.find({busca});
+    console.log(campanhasBusca);
+    res.json(campanhasBusca);
+}
+
 module.exports = campanhaCtrl;

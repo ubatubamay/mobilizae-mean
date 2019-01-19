@@ -11,7 +11,8 @@
       <a (click)="openDialogLogin()" *ngIf="!usuario" mat-button>Entrar</a>
       <a [routerLink]="'/area-escola'" *ngIf="usuario && usuario.perfil === 'escola'" routerLinkActive="active" mat-button>Área da escola</a>
       <a [routerLink]="'/area-cidadao'" *ngIf="usuario && usuario.perfil === 'cidadao'" routerLinkActive="active" mat-button>Área do cidadão</a>
-      <a [routerLink]="'/'" *ngIf="usuario" (click)="logout()" routerLinkActive="active" mat-button>Sair</a>
+      <a [routerLink]="'/area-adm'" *ngIf="usuario && usuario.perfil === 'adm'" routerLinkActive="active" mat-button>Gerenciador</a>
+      <a *ngIf="usuario" (click)="logout()" routerLinkActive="active" mat-button>Sair</a>
       <a (click)="drawer.toggle()" mat-button><mat-icon>close</mat-icon></a>
     </mat-nav-list>
   </mat-sidenav>
@@ -35,7 +36,8 @@
       <a (click)="openDialogLogin()" *ngIf="!usuario" mat-button>Entrar</a>
       <a [routerLink]="'/area-escola'" *ngIf="usuario && usuario.perfil === 'escola'" routerLinkActive="active" mat-button>Área da escola</a>
       <a [routerLink]="'/area-cidadao'" *ngIf="usuario && usuario.perfil === 'cidadao'" routerLinkActive="active" mat-button>Área do cidadão</a>
-      <a [routerLink]="'/'" *ngIf="usuario" (click)="logout()" routerLinkActive="active" mat-button>Sair</a>
+      <a [routerLink]="'/area-adm'" *ngIf="usuario && usuario.perfil === 'adm'" routerLinkActive="active" mat-button>Gerenciador</a>
+      <a *ngIf="usuario" (click)="logout()" routerLinkActive="active" mat-button>Sair</a>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

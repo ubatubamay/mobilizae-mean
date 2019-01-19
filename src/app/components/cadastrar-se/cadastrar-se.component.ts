@@ -31,8 +31,6 @@ export class CadastrarSeComponent implements OnInit {
     password: ['', Validators.required],
     nome: ['', Validators.required],
     sobrenome: ['', Validators.required],
-    cpf: ['', Validators.required],
-    data_nascimento: ['', Validators.required], 
     cidade: ['', Validators.required], 
     uf: [null, Validators.required]
   });
@@ -56,7 +54,9 @@ export class CadastrarSeComponent implements OnInit {
     model.perfil = 'cidadao';
     model.uf = model.uf.sigla;
     e.preventDefault();
+    console.log('antes do valid');
     if (isValid){
+      console.log('depois do valid');
       this.isWait = true;
       this._usuarios.cadastraUsuario(model)
         .subscribe(

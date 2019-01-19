@@ -10,6 +10,16 @@ usuarioCtrl.getUsuarios = async (req, res) => {
     res.json(usuarios);
 }
 
+usuarioCtrl.getEscolas = async (req, res) => {
+    const escolas = await Usuario.find({perfil: 'escola'});
+    res.json(escolas);
+}
+
+usuarioCtrl.getEscolasVerificacao = async (req, res) => {
+    const escolas = await Usuario.find({perfil: 'escola', verificado: null});
+    res.json(escolas);
+}
+
 usuarioCtrl.getUsuario = async (req, res) => {
     const id =  req.params.id;
     const usuario = await Usuario.findById(id);
@@ -20,6 +30,11 @@ usuarioCtrl.updateUsuario = async (req, res) => {
     const id =  req.params.id;
     await Usuario.findByIdAndUpdate(id, {$set: req.body}, {new: true});
     res.json({status: 'Usuário atualizado'});
+}
+
+usuarioCtrl.putEscolaVerificacao = async (req, res) => {
+    await Usuario.findByIdAndUpdate(req.params.id, { $set: {verificado: req.body.descricao} }, {new: true})
+    res.json('Verificação de escola atualizada');
 }
 
 usuarioCtrl.deleteUsuario = async (req, res) => {

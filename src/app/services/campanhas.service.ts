@@ -18,6 +18,10 @@ export class CampanhasService {
     return this.http.get<any>(this.URL_API);
   }
 
+  getCampanhasBusca(busca) {
+    return this.http.post<any>(this.URL_API + '/busca', busca);
+  }
+
   getCampanha(id: string) {
     return this.http.get<any>(this.URL_API + `/${id}`);
   }

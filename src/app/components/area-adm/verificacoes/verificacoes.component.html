@@ -1,0 +1,41 @@
+<mat-card class="card-wcontent">
+  <p class="pcenter w600" *ngIf="escolas?.length == 0">Não há verificações pendentes</p>
+  <mat-progress-bar *ngIf="isWait" mode="indeterminate"></mat-progress-bar>
+  <table *ngIf="escolas?.length > 0" mat-table [dataSource]="escolas" matSort>
+
+    <ng-container matColumnDef="escola">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Escola </th>
+      <td mat-cell *matCellDef="let escola"> <a>{{escola.nome}}</a> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rede">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rede </th>
+      <td mat-cell *matCellDef="let escola"> {{escola.rede}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cidade">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </th>
+      <td mat-cell *matCellDef="let escola">
+        {{escola.endereco.cidade}}/{{escola.endereco.uf}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="acao">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Verificar conta </th>
+      <td mat-cell *matCellDef="let escola">
+        <button (click)="confirmarVerificacao(escola._id)" type="button" class="btnTransp">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button (click)="rejeitarVerificacao(escola._id)" type="button" class="btnTransp">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let escola; columns: displayedColumns;">
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" color="accent"></mat-paginator>
+</mat-card>

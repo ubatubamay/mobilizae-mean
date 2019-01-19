@@ -1,0 +1,66 @@
+.container-fluid{
+    width:95%;
+    padding-right:15px;
+    padding-left:15px;
+    margin-right:auto;
+    margin-left:auto
+}
+
+button {
+    margin-right: 10px;
+}
+
+table {
+    background: none;
+    border-radius:3px;
+    border-collapse: collapse;
+    max-width: 600px;
+    padding:5px;
+    width: 100%;
+    // box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    animation: float 5s infinite;
+
+    tr:hover {background-color: #e5e5e5;}
+
+}
+
+mat-paginator {
+    background: none;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+}
+
+td.mat-cell {
+    padding-right: 20px;
+}
+
+td.mat-cell:last-of-type {
+    padding-right: 0px;
+}
+
+.btnTransp {
+	border-radius:50%;
+	width:40px;
+	height:40px;
+    cursor:pointer;
+    background-color: transparent;
+	border:none;
+    
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+}
+
+.card-wcontent {
+    margin: 20px;
+    display: inline-block;
+    min-height: 70%;
+}
+
+.pcenter{
+    text-align: center;
+} 
+
+.w600 {
+    width: 600px;
+}

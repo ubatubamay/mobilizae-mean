@@ -40,6 +40,7 @@ $max_font: 22px;
 html, body {
     @include fluid-type($min_width, $max_width, $min_font, $max_font);
     height: 100%;
+    overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
@@ -63,4 +64,8 @@ body{
     padding-left:15px;
     margin-right:auto;
     margin-left:auto;
+}
+
+.mat-table, .mat-card {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }

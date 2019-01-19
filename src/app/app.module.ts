@@ -37,6 +37,10 @@ import { ConfirmaAjudaVagaComponent } from './components/campanhas/campanha-deta
 import { ConfirmaAjudaMaterialComponent } from './components/campanhas/campanha-detalhe/confirma-ajuda-material/confirma-ajuda-material.component';
 import { MinhasAjudasComponent } from './components/area-cidadao/minhas-ajudas/minhas-ajudas.component';
 import { PerfilCidadaoComponent } from './components/area-cidadao/perfil-cidadao/perfil-cidadao.component';
+import { AreaAdmComponent } from './components/area-adm/area-adm.component';
+import { VerificacoesComponent } from './components/area-adm/verificacoes/verificacoes.component';
+import { CidadaosComponent } from './components/area-adm/cidadaos/cidadaos.component';
+import { EscolasComponent } from './components/area-adm/escolas/escolas.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,11 @@ import { PerfilCidadaoComponent } from './components/area-cidadao/perfil-cidadao
     ConfirmaAjudaVagaComponent,
     ConfirmaAjudaMaterialComponent,
     MinhasAjudasComponent,
-    PerfilCidadaoComponent
+    PerfilCidadaoComponent,
+    AreaAdmComponent,
+    VerificacoesComponent,
+    CidadaosComponent,
+    EscolasComponent
   ],
   imports: [
     BrowserModule,
@@ -101,6 +109,14 @@ import { PerfilCidadaoComponent } from './components/area-cidadao/perfil-cidadao
           {path: '', redirectTo: 'minhas-ajudas', pathMatch: 'full'},
           {path: 'minhas-ajudas', component: MinhasAjudasComponent},
           {path: 'perfil-cidadao', component: PerfilCidadaoComponent}
+          
+        ]},
+      {path: 'area-adm', component: AreaAdmComponent,
+        children: [
+          {path: '', redirectTo: 'verificacoes', pathMatch: 'full'},
+          {path: 'verificacoes', component: VerificacoesComponent},
+          {path: 'cidadaos', component: CidadaosComponent},
+          {path: 'escolas', component: EscolasComponent}
           
         ]}
     ])

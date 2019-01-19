@@ -18,7 +18,8 @@ const UsuarioSchema = new Schema({
         uf: { type: String, required: true }
     },  
     rede: { type: String },
-    etapa: { type: String }
+    etapa: { type: String },
+    verificado: { type: Boolean }
 },
 {
     timestamps: {

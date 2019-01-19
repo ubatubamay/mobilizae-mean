@@ -11,5 +11,6 @@ export interface Usuario {
     bairro?: string,
     cidade?: string,
     uf?: string
-  }
+  };
+  verificado?: boolean;
 }

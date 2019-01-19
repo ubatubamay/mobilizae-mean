@@ -7,8 +7,9 @@
 }
 
 .card-small {
-    max-width: 250px;
-    min-height: 300px;
+  // width: auto;
+  max-width: 250px;
+  min-height: 300px;
 }
 
 .example-header-image {
@@ -18,4 +19,54 @@
 
 mat-card-actions{
     width: 100%;
+}
+
+body {
+    background: #eee;
+}
+
+
+
+/* FORMULÁRIO DE BUSCA */
+
+.banner-card{
+  height: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: absolute;
+  padding: 10px 30px 10px 30px;
+}
+
+// @media (max-width: 960px) {
+//   .banner-card{
+//     height: auto;
+//   }
+// }
+
+.banner-content {height: auto; text-align: left; font-size: 1}
+
+mat-form-field {
+  padding: 5px ;
+  width: 200px;
+}
+
+@media (max-width: 960px) {
+  .banner-content{
+    font-size: 1em
+  }
+}
+
+@media (max-width: 575px) {
+  .banner-content{
+    font-size: 0.9em;
+    text-align: center;
+  }
+  mat-form-field {
+    display: block;
+    width: 100%;
+  }
+}
+
+button {
+    margin: 5px;
 }

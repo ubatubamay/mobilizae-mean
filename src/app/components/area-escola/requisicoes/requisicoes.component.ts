@@ -69,6 +69,7 @@ export class RequisicoesComponent implements OnInit {
           res => {
             this.isWait = false;
             this._notif.notifica('Satus atualizado!');
+            this.ngOnInit();
           },
           err => {
             this.isWait = false;

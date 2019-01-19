@@ -23,6 +23,18 @@ export class UsuariosService {
       );
   }
 
+  getEscolas() {
+    return this.http.get<any>(this.URL_API + '/escolas');
+  }
+
+  getEscolasVerificacao() {
+    return this.http.get<any>(this.URL_API + '/escolas/verificacao');
+  }
+
+  putEscolaVerificacao(id, verificacao) {
+    return this.http.put(this.URL_API + '/escola/verificacao/'+id, verificacao);
+  }
+
   updateUsuario(id, atualizacao) {
     return this.http.put<any>(this.URL_API + '/'+id, atualizacao)
       .pipe(
