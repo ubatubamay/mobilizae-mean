@@ -1,25 +1,80 @@
 .card-small-container {
-    display: grid;
-    padding: 20px;
-    grid-gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-auto-rows: auto;
+  display: grid;
+  padding: 16px;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: auto;
 }
 
 .card-small {
   // width: auto;
-  max-width: 250px;
+  max-width: 570px;
   min-height: 300px;
 }
 
 .example-header-image {
-    background-image: url('../../../assets/img/icone-escola.png');
-    background-size: cover;
+  background-image: url('../../../assets/img/icone-escola.png');
+  background-size: cover;
 }
 
-mat-card-actions{
-    width: 100%;
+mat-card-header {
+  height: 30%;
 }
+
+mat-card-content {
+  padding-right: 24px;
+  padding-top: 0;
+  overflow: hidden;
+}
+
+
+mat-card-actions{
+  display: inline-block;
+  position: absolute;
+  bottom: 16px;
+  width: 93%;
+  button{
+    width: 100%;
+  }
+
+  :last-child {
+    margin-bottom: 0px;
+  }
+}
+
+.block-with-text {
+  overflow: hidden;
+  position: relative; 
+  line-height: 1.2em;
+  max-height: 3.6em;
+  text-align: justify;
+  
+  margin-right: -1em;
+  padding-right: 1em;
+}
+.block-with-text:before {
+  content: '...';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.block-with-text:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  background: white;
+}
+
+mat-icon {
+  vertical-align: sub;
+}
+
+
+
+
 
 body {
     background: #eee;
@@ -35,13 +90,9 @@ body {
   background-size: cover;
   background-position: absolute;
   padding: 10px 30px 10px 30px;
+  box-shadow: none;
+  background-color: transparent;
 }
-
-// @media (max-width: 960px) {
-//   .banner-card{
-//     height: auto;
-//   }
-// }
 
 .banner-content {height: auto; text-align: left; font-size: 1}
 

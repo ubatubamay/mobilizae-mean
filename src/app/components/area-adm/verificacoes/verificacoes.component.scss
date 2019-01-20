@@ -1,47 +1,8 @@
-.container-fluid{
-    width:95%;
-    padding-right:15px;
-    padding-left:15px;
-    margin-right:auto;
-    margin-left:auto
-}
-
 button {
-    margin-right: 10px;
-}
-
-table {
-    background: none;
-    border-radius:3px;
-    border-collapse: collapse;
-    max-width: 600px;
-    padding:5px;
-    width: 100%;
-    // box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    animation: float 5s infinite;
-
-    tr:hover {background-color: #e5e5e5;}
-
-}
-
-mat-paginator {
-    background: none;
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-}
-
-td.mat-cell {
-    padding-right: 20px;
-}
-
-td.mat-cell:last-of-type {
-    padding-right: 0px;
-}
-
-.btnTransp {
-	border-radius:50%;
-	width:40px;
-	height:40px;
+    height: 35px;
+    width: 35px;
+    margin-left: 15px;
+    border-radius:50%;
     cursor:pointer;
     background-color: transparent;
 	border:none;
@@ -49,18 +10,85 @@ td.mat-cell:last-of-type {
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	-ms-user-select:none;
-}
+    mat-icon {
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+  }
+  
+@media screen and (max-width: 960px) {
+    .mat-table {
+    border: 0;
+    vertical-align: middle
+    }
 
-.card-wcontent {
-    margin: 20px;
-    display: inline-block;
-    min-height: 70%;
-}
+    .mat-table caption {
+    font-size: 1em;
+    }
+    
+    
+    .mat-table .mat-header-cell {
+    
+    border: 10px solid;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    }
+    
+    .mat-table .mat-row {
+    border-top: 5px solid #ddd;
+    display: block;
+    padding: 0 20px 0 20px;
+    min-height: inherit;
+    }
+    
+    .mat-table .mat-row:nth-child(even) {background: #ececec}
+    .mat-table .mat-row:nth-child(odd) {background: #FFF}
+    
+    .mat-table .mat-cell {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+    font-weight: normal;
+    height:30px;
+    margin-bottom: 0.8em;
+    }
 
-.pcenter{
+    .mat-cell {
+    min-height: unset;
+    }
+
+    .mat-cell:first-of-type {
+        padding-left: 0px;
+    }
+
+    .mat-table .mat-cell:before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    text-transform: uppercase;
+    font-weight: bold;
+    
+    font-size: .85em;
+    }
+
+    .mat-footer-row::after, .mat-header-row::after, .mat-row::after {
+    display: none;
+    }
+
+    .mat-table .mat-cell:last-child {
+    border-bottom: 0;
     text-align: center;
-} 
-
-.w600 {
-    width: 600px;
+    padding-bottom: 15px;
+    }
+    .mat-table .mat-cell:first-child {
+    margin-top: 0.8em;
+    }
 }

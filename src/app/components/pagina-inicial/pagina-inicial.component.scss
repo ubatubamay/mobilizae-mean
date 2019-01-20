@@ -102,11 +102,6 @@ mat-card-content {
   padding-right: 24px;
   padding-top: 0;
   overflow: hidden;
-  p{
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical; 
-  }
 }
 
 .example-header-image {

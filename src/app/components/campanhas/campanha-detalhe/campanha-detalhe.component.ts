@@ -7,6 +7,7 @@ import { Vagas } from 'src/app/models/vagas';
 import { Materiais } from 'src/app/models/materiais';
 import { ConfirmaAjudaVagaComponent } from './confirma-ajuda-vaga/confirma-ajuda-vaga.component';
 import { ConfirmaAjudaMaterialComponent } from './confirma-ajuda-material/confirma-ajuda-material.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-campanha-detalhe',
@@ -25,7 +26,8 @@ export class CampanhaDetalheComponent implements OnInit {
   constructor(public _campanhas: CampanhasService,
               public route: ActivatedRoute,
               private router: Router,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private location: Location) { }
 
   ngOnInit() {
     this._campanhas.getCampanha(this.route.snapshot.params['id'])
@@ -57,7 +59,7 @@ export class CampanhaDetalheComponent implements OnInit {
   }
 
   voltar() {
-    this.router.navigate(['/campanhas']);
+    this.location.back();
   }
 
 }
