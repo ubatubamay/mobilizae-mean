@@ -17,7 +17,7 @@
       <mat-card class="result-card">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{campanha.escola.nome}} <mat-icon *ngIf="campanha.escola.verificado" color="accent">check_circle</mat-icon></mat-card-title>
+          <mat-card-title>{{campanha.escola.nome}} <mat-icon *ngIf="campanha.escola.verificado" color="accent" title="Conta verificada">check_circle</mat-icon></mat-card-title>
           <mat-card-subtitle>{{campanha.escola.endereco.cidade}}/{{campanha.escola.endereco.uf}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
@@ -25,8 +25,8 @@
           <p class="block-with-text">
             {{campanha.descricao}}
           </p>
-          <mat-icon *ngIf="campanha.tipo != 'Voluntariado'">card_giftcard</mat-icon>
-          <mat-icon *ngIf="campanha.tipo != 'Material'">person</mat-icon>
+          <span *ngIf="campanha.tipo != 'Voluntariado'"><mat-icon>card_giftcard</mat-icon> Doação de material</span>
+          <span *ngIf="campanha.tipo != 'Material'"><mat-icon>person</mat-icon> Vaga de voluntário</span>
         </mat-card-content>
         <mat-card-actions>
           <button mat-button (click)="getCampanha(campanha)">VER CAMPANHA</button>

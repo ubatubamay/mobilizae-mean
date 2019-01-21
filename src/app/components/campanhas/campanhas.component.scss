@@ -69,6 +69,7 @@ mat-card-actions{
 }
 
 mat-icon {
+  cursor: default;
   vertical-align: sub;
 }
 
@@ -120,4 +121,8 @@ mat-form-field {
 
 button {
     margin: 5px;
+}
+
+span {
+  display: block;
 }

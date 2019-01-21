@@ -72,9 +72,9 @@ body {
   justify-content: center;
   align-items: center;
 
-  :last-child {
-    margin-right: 16px;
-  }
+  // :last-child {
+  //   margin-right: 16px;
+  // }
 }
   
 
@@ -164,4 +164,13 @@ mat-card-actions{
   height: 1em;
   margin-top: 0.2em;
   background: white;
+}
+
+mat-icon {
+  cursor: default;
+  vertical-align: sub;
+}
+
+span {
+  display: block;
 }

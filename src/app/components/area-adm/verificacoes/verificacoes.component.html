@@ -28,10 +28,10 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header> Verificar conta </mat-header-cell>
         <mat-cell *matCellDef="let escola">
             <button (click)="confirmarVerificacao(escola._id)" type="button" class="btnTransp">
-              <mat-icon>done</mat-icon>
+              <mat-icon title="Confirmar verificação">done</mat-icon>
             </button>
             <button (click)="rejeitarVerificacao(escola._id)" type="button" class="btnTransp">
-              <mat-icon>clear</mat-icon>
+              <mat-icon title="Rejeitar verificação">clear</mat-icon>
             </button>     
         </mat-cell>
       </ng-container>

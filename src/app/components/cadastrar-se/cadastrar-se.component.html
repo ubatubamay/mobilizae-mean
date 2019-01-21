@@ -61,9 +61,9 @@
           <input matInput [type]="hide? 'password' : 'text'" formControlName="password">
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
-        <p>
+        <!-- <p>
           Form Status: {{ cadastrarSeForm.value | json }}
-        </p>
+        </p> -->
 
         <button mat-flat-button color="accent" (click)="cadastraUsuario(cadastrarSeForm.value, cadastrarSeForm.valid, $event)">Concluir cadastro</button>
         <button mat-flat-button (click)="onCloseCancel()" color="accent">Cancelar</button>
