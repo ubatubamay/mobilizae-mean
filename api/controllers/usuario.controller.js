@@ -15,6 +15,11 @@ usuarioCtrl.getEscolas = async (req, res) => {
     res.json(escolas);
 }
 
+usuarioCtrl.getCidadaos = async (req, res) => {
+    const cidadaos = await Usuario.find({perfil: 'cidadao'});
+    res.json(cidadaos);
+}
+
 usuarioCtrl.getEscolasVerificacao = async (req, res) => {
     const escolas = await Usuario.find({perfil: 'escola', verificado: null});
     res.json(escolas);

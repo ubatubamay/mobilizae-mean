@@ -27,6 +27,10 @@ export class UsuariosService {
     return this.http.get<any>(this.URL_API + '/escolas');
   }
 
+  getCidadaos() {
+    return this.http.get<any>(this.URL_API + '/cidadaos');
+  }
+
   getEscolasVerificacao() {
     return this.http.get<any>(this.URL_API + '/escolas/verificacao');
   }

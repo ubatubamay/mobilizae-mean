@@ -1,3 +1,140 @@
-<p>
-  cidadaos works!
-</p>
+<div class="grid-container-50-50">
+  <mat-card id="b1">
+    <mat-card-content>
+      <p class="pcenter w600" *ngIf="dataSource?.data.length == 0">Não há cidadãos cadastrados</p>
+      <mat-progress-bar *ngIf="isWait" mode="indeterminate"></mat-progress-bar>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+      </mat-form-field>
+      <div class="mat-elevation-z8">
+      
+        <mat-table *ngIf="dataSource?.data.length > 0" [dataSource]="dataSource" matSort>
+      
+          <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let cidadao" data-label="cidadao"> {{cidadao.nome}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="sobrenome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Sobrenome </mat-header-cell>
+            <mat-cell *matCellDef="let cidadao" data-label="sobrenome"> {{cidadao.sobrenome}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="cidade">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </mat-header-cell>
+            <mat-cell *matCellDef="let cidadao" data-label="cidade"> {{cidadao.endereco.cidade}}/{{cidadao.endereco.uf}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="acao">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Ações </mat-header-cell>
+              <mat-cell *matCellDef="let cidadao">
+                  <button type="button" (click)="exibePerfil(cidadao._id)" class="btnTransp">
+                    <mat-icon title="Visualizar perfil">perm_contact_calendar</mat-icon>
+                  </button>
+                  <button type="button" (click)="deletarCidadao(cidadao._id)" class="btnTransp">
+                    <mat-icon title="Deletar registro">delete</mat-icon>
+                  </button>     
+              </mat-cell>
+            </ng-container>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let cidadao; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+      
+      </div>       
+    </mat-card-content>
+  </mat-card>
+      
+
+
+
+  <mat-card id="b2">
+    <mat-card-content *ngIf="perfil">
+      <button mat-flat-button *ngIf="!edicao" (click)="editar(cidadao)" color="accent">Editar cidadão</button>
+      <button mat-flat-button *ngIf="edicao" (click)="atualizaPerfil(atualizaCidadaoForm.value, atualizaCidadaoForm.valid, $event)" color="accent">Atualizar cidadão</button>
+      <button mat-flat-button *ngIf="edicao" (click)="cancelarEdicao()" color="accent">Cancelar</button>
+      <form [formGroup]="atualizaCidadaoForm" #customerForm="ngForm" novalidate>        
+        
+        <h2 *ngIf="!edicao">{{cidadao?.nome}}</h2>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="nome">
+        </mat-form-field>
+
+        <p *ngIf="!edicao">{{cidadao?.sobrenome}}</p>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>Sobrenome</mat-label>
+          <input matInput formControlName="sobrenome">
+        </mat-form-field>
+        
+        <p *ngIf="!edicao">{{cidadao?.sobre}}</p>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>Sobre o cidadão</mat-label>
+          <textarea matInput formControlName="sobre"></textarea>
+        </mat-form-field>
+
+        <h4 *ngIf="!edicao">CPF</h4>
+        <p *ngIf="!edicao">{{cidadao?.cpf}}</p>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>CPF</mat-label>
+          <input matInput formControlName="cpf">
+        </mat-form-field>       
+      
+        <h4 *ngIf="!edicao">Data de nascimento</h4>
+        <p *ngIf="!edicao">{{cidadao?.data_nascimento}}</p>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>Data de nascimento</mat-label>
+          <input matInput formControlName="data_nascimento">
+        </mat-form-field>
+        
+        
+        <div formGroupName="endereco">
+          <h4>Localização</h4>
+          <p *ngIf="!edicao">{{cidadao?.endereco.logradouro}}, {{cidadao?.endereco.numero}}</p>
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Logradouro</mat-label>
+            <input matInput formControlName="logradouro">
+            <mat-hint>Rua, Avenida, etc...</mat-hint>
+          </mat-form-field>
+          
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Nº</mat-label>
+            <input matInput formControlName="numero">
+          </mat-form-field>
+          
+          <p *ngIf="!edicao">{{cidadao?.endereco.bairro}}</p>
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Bairro</mat-label>
+            <input matInput formControlName="bairro">
+          </mat-form-field>
+          
+          <p *ngIf="!edicao">{{cidadao?.endereco.cidade}}/{{cidadao?.endereco.uf}}</p>
+          <mat-form-field appearance="outline" *ngIf="edicao">
+            <mat-select placeholder="Estado" [(value)]="selectedEstado" formControlName="uf" (selectionChange)="selecionado(selectedEstado)">
+              <mat-option *ngFor="let estado of estados" [value]='estado'>
+                {{estado.nome}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" *ngIf="edicao">
+            <input type="text" placeholder="Cidade" matInput formControlName="cidade" [matAutocomplete]="autom">
+            <mat-autocomplete #autom="matAutocomplete">
+              <mat-option *ngFor="let cidade of filtroCidades | async" [value]="cidade">
+                {{cidade}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <p>
+            Form Status: {{ atualizaCidadaoForm.value | json }}
+          </p>
+
+        </div>
+        
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

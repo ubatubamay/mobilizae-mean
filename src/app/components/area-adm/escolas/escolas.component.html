@@ -1,3 +1,139 @@
-<p>
-  escolas works!
-</p>
+<div class="grid-container-50-50">
+  <mat-card id="b1">
+    <mat-card-content>
+      <p class="pcenter w600" *ngIf="dataSource?.data.length == 0">Não há escolas cadastradas</p>
+      <mat-progress-bar *ngIf="isWait" mode="indeterminate"></mat-progress-bar>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+      </mat-form-field>
+      <div class="mat-elevation-z8">
+      
+        <mat-table *ngIf="dataSource?.data.length > 0" [dataSource]="dataSource" matSort>
+      
+          <ng-container matColumnDef="escola">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Escola </mat-header-cell>
+            <mat-cell *matCellDef="let escola" data-label="escola"> {{escola.nome}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="rede">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Rede </mat-header-cell>
+            <mat-cell *matCellDef="let escola" data-label="rede"> {{escola.rede}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="cidade">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </mat-header-cell>
+            <mat-cell *matCellDef="let escola" data-label="cidade"> {{escola.endereco.cidade}}/{{escola.endereco.uf}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="acao">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Ações </mat-header-cell>
+              <mat-cell *matCellDef="let escola">
+                  <button type="button" (click)="exibePerfil(escola._id)" class="btnTransp">
+                    <mat-icon title="Visualizar perfil">perm_contact_calendar</mat-icon>
+                  </button>
+                  <button type="button" (click)="deletarEscola(escola._id)" class="btnTransp">
+                    <mat-icon title="Deletar registro">delete</mat-icon>
+                  </button>     
+              </mat-cell>
+            </ng-container>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let escola; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+      
+      </div>       
+    </mat-card-content>
+  </mat-card>
+      
+
+
+
+  <mat-card id="b2">
+    <mat-card-content *ngIf="perfil">
+      <button mat-flat-button *ngIf="!edicao" (click)="editar(escola)" color="accent">Editar escola</button>
+      <button mat-flat-button *ngIf="edicao" (click)="atualizaPerfil(atualizaEscolaForm.value, atualizaEscolaForm.valid, $event)" color="accent">Atualizar escola</button>
+      <button mat-flat-button *ngIf="edicao" (click)="cancelarEdicao()" color="accent">Cancelar</button>
+      <form [formGroup]="atualizaEscolaForm" #customerForm="ngForm" novalidate>        
+        
+        <h2 *ngIf="!edicao">{{escola?.nome}}</h2>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>Nome da escola</mat-label>
+          <input matInput formControlName="nome">
+        </mat-form-field>
+        
+        <p *ngIf="!edicao">{{escola?.sobre}}</p>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-label>Sobre a escola</mat-label>
+          <textarea matInput formControlName="sobre"></textarea>
+        </mat-form-field>
+
+        <h4>Rede pública pertencente</h4>
+        <p *ngIf="!edicao">{{escola?.rede}}</p>
+        <mat-radio-group *ngIf="edicao" class="example-radio-group" formControlName="rede">
+          <mat-radio-button class="example-radio-button" *ngFor="let rede of redes" [checked]="(escola.rede == rede) ? true : false" [value]="rede">
+            {{rede}}
+          </mat-radio-button>
+          <br><br>
+        </mat-radio-group>        
+      
+        <h4>Etapa(s) educacional(is) que a escola oferece</h4>
+        <p *ngIf="!edicao">{{escola?.etapa}}</p>
+        <mat-form-field *ngIf="edicao" appearance="outline">
+          <mat-select placeholder="Etapa(s)" true formControlName="etapa" multiple>
+            <mat-option *ngFor="let etapa of etapas" [value]="etapa">
+              {{etapa}}
+            </mat-option>            
+          </mat-select>
+        </mat-form-field>
+        
+        
+        <div formGroupName="endereco">
+          <h4>Localização</h4>
+          <p *ngIf="!edicao">{{escola?.endereco.logradouro}}, {{escola?.endereco.numero}}</p>
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Logradouro</mat-label>
+            <input matInput formControlName="logradouro">
+            <mat-hint>Rua, Avenida, etc...</mat-hint>
+          </mat-form-field>
+          
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Nº</mat-label>
+            <input matInput formControlName="numero">
+          </mat-form-field>
+          
+          <p *ngIf="!edicao">{{escola?.endereco.bairro}}</p>
+          <mat-form-field *ngIf="edicao" appearance="outline">
+            <mat-label>Bairro</mat-label>
+            <input matInput formControlName="bairro">
+          </mat-form-field>
+          
+          <p *ngIf="!edicao">{{escola?.endereco.cidade}}/{{escola?.endereco.uf}}</p>
+          <mat-form-field appearance="outline" *ngIf="edicao">
+            <mat-select placeholder="Estado" [(value)]="selectedEstado" formControlName="uf" (selectionChange)="selecionado(selectedEstado)">
+              <mat-option *ngFor="let estado of estados" [value]='estado'>
+                {{estado.nome}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" *ngIf="edicao">
+            <input type="text" placeholder="Cidade" matInput formControlName="cidade" [matAutocomplete]="autom">
+            <mat-autocomplete #autom="matAutocomplete">
+              <mat-option *ngFor="let cidade of filtroCidades | async" [value]="cidade">
+                {{cidade}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <p>
+            Form Status: {{ atualizaEscolaForm.value | json }}
+          </p>
+
+        </div>
+        
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

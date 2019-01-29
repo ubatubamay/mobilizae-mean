@@ -4,6 +4,7 @@ const router = express.Router();
 const usuario = require('../controllers/usuario.controller');
 
 router.get('/', usuario.getUsuarios);
+router.get('/cidadaos', usuario.getCidadaos);
 router.get('/escolas', usuario.getEscolas);
 router.get('/escolas/verificacao', usuario.getEscolasVerificacao);
 router.put('/escola/verificacao/:id', usuario.putEscolaVerificacao);
