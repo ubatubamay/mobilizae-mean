@@ -69,7 +69,7 @@ export class PerfilCidadaoComponent implements OnInit {
           this.atualizaCidadaoForm = this.fb.group({
             nome: [perfil.nome, Validators.required],
             sobrenome: [perfil.sobrenome, Validators.required],
-            sobre: [perfil.sobre, Validators.required],
+            sobre: [perfil.sobre],
             cpf: [perfil.cpf],
             data_nascimento: [perfil.data_nascimento],
             endereco: this.fb.group({
