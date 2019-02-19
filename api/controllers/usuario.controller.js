@@ -55,26 +55,8 @@ usuarioCtrl.setUsuario = async (req, res, next) => {
     }
     var saltRounds = 10;
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-        var usuario = {
-            perfil: req.body.perfil,
-            email: req.body.email,
-            password: hash,
-            nome: req.body.nome,
-            sobrenome: req.body.sobrenome,
-            sobre: req.body.sobre,
-            cpf: req.body.cpf,
-            data_nascimento: req.body.data_nascimento,
-            endereco: {
-                logradouro: req.body.logradouro, 
-                numero: req.body.numero, 
-                bairro: req.body.bairro, 
-                cidade: req.body.cidade, 
-                uf: req.body.uf
-            },
-            rede: req.body.rede,
-            etapa: req.body.etapa
-        };
-        usuario = new Usuario(usuario);
+        usuario = new User(req.body);
+        usuario.password = hash;
         usuario.save((err, registro) => {
             if(err) return console.log(err);
             res.json({status: 'Usuário registrado'});

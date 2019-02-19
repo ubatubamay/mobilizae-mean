@@ -19,7 +19,8 @@ const UsuarioSchema = new Schema({
     },  
     rede: { type: String },
     etapa: { type: String },
-    verificado: { type: Boolean }
+    verificado: { type: Boolean },
+    isVerified: { type: Boolean, default: false }
 },
 {
     timestamps: {
